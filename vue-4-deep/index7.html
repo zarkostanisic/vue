@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="app">
+		<p ref="message">{{ message }}</p>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			data: {
+				message: 'Hello World'
+			}
+		});
+
+		//vm.$mount('#app');
+		vm.$mount(document.getElementById('app'));
+	</script>
+</body>
+</html>

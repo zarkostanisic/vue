@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="app">
+		<p ref="message">{{ message }}</p>
+
+		<button ref="myButton" @click="clickedButton">Click</button>
+
+		<ul>
+			<li v-for="n in 10" ref="numbers">{{ n }}</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello World'
+			},
+			methods: {
+				clickedButton: function(){
+					console.log(this.$refs.myButton.innerText = this.message);
+				}
+			}
+		});
+
+		console.log(vm.$refs);
+
+		// setTimeout(function(){
+		// 	vm.$refs.message.innerText = 'test';
+		// }, 5000);
+
+		setTimeout(function(){
+			vm.message = 'test';
+		}, 5000);
+	</script>
+</body>
+</html>

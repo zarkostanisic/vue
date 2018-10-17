@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="app">
+		<p>{{ counter }}</p>
+
+		<button @click="counter++">Counter++</button>
+
+		<p>{{ person.name.firstName }}</p>
+		<button @click="person.name.firstName = 'F W'">Change first name to 'F W'</button>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				counter: 0,
+				person: {
+					name: {
+						firstName: 'F',
+						lastName: 'L'
+					}
+				}
+			}
+		});
+
+		// vm.$watch('counter', function(newValue, oldValue){
+		// 	alert('Counter++ (' + newValue + ' | ' + oldValue + ')');
+		// });
+
+		// vm.$watch('person.name.firstName', function(newValue, oldValue){
+		// 	alert('firstName (' + newValue + ' | ' + oldValue + ')');
+		// });
+
+		// vm.$watch('person.name', function(newValue, oldValue){
+		// 	alert('firstName (' + newValue.firstName + ' | ' + oldValue.firstName + ')');
+		// }, {deep : true});
+
+		var unwatch = vm.$watch(function(){
+				return this.counter;
+			}, function(newValue, oldValue){
+				alert('Counter++ (' + newValue + ' | ' + oldValue + ')');
+			}
+		);
+
+		setTimeout(function(){
+			unwatch();
+		}, 5000);
+	</script>
+</body>
+</html>

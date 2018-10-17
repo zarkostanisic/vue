@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="vm">
+		
+	</div>
+
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+
+		var data = {
+			message: 'Hello World!',
+			x: 1,
+			y: 2
+		};
+
+		var vm = new Vue({
+			el: '#vm',
+			data: data,
+			methods: {
+				showMessage(){
+					alert(this.message);
+				}
+			},
+			computed: {
+				z: function(){
+					return this.x * this.y;
+				}
+			}
+		});
+
+		console.log(vm);
+		console.log(vm.$data.message);
+		console.log(vm.message);
+		console.log(data.message === vm.message);
+		console.log(data === vm.$data);
+		
+	</script>
+</body>
+</html>

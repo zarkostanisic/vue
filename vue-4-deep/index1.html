@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="vm1">
+		<p>{{ title }}</p>
+	</div>
+
+	<div id="vm2">
+		<button @click="showName">Show name</button>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		var vm1 = new Vue({
+			el: '#vm1',
+			data: {
+				title: 'Instance #1'
+			}
+		});
+
+		var vm2 = new Vue({
+			el: '#vm2',
+			methods: {
+				showName: function(){
+					alert(vm1.title);
+				}
+			}
+		});
+
+		setTimeout(function(){
+			vm1.title = 'Title from other side Instance #1';
+		}, 5000);
+		
+	</script>
+</body>
+</html>
