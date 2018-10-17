@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Test 4</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p v-bind:title="message | uwfirst">{{ message }}</p>
+
+		<p>{{ message | uwfirst | removeSpaces }}</p>
+	</div>
+
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data: {
+				message: 'hello world!'
+			},
+			filters: {
+				uwfirst: function(value){
+					if(!value){
+						return '';
+					}
+					
+					var words = value.toString().split(' ');
+					
+					var uppercasedWords = words.map(function(word){
+						return word.charAt(0).toUpperCase() + word.slice(1);
+					});
+
+					return uppercasedWords.join(' ');
+				},
+				removeSpaces: function(value){
+					if(!value){
+						return '';
+					}
+					
+					return value.replace(' ', '');
+				}
+			}		
+		});
+	</script>
+</body>
+</html>

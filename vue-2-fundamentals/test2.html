@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Test 2</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="password">
+		<p>{{ password }}</p>
+
+		<p v-if="password.length > 8">Correct</p>
+		<p v-else-if="password.length > 0">Min 8</p>
+		<p v-else>Enter</p>
+
+		<ul v-for="c in categories">
+			<li>{{ c.name }}
+				<ul>
+					<li v-for="s in c.subcategories">{{ s.name }}</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				password: '',
+				categories: [
+					{
+						name: 'C 1',
+						subcategories: [
+							{name: 'S 11'},
+							{name: 'S 12'},
+							{name: 'S 13'}
+						]
+					},
+					{
+						name: 'C 2',
+						subcategories: [
+							{name: 'S 21'},
+							{name: 'S 22'},
+							{name: 'S 23'}
+						]
+					}
+				]
+			}
+		});
+	</script>
+</body>
+</html>

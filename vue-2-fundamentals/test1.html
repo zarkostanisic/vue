@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue test</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="title">
+		<input type="text" v-on:keyup.enter="changeAge($event)">
+		<input type="text" v-model.lazy="name">
+		<p v-bind:title="title" v-once>{{ title }}</p>
+		<p v-bind:title="age">{{ age }}</p>
+		<p>{{ name }}</p>
+
+		<p>{{ isOld() ? 'Old' : 'New' }}</p>
+		<button v-on:click.once="clear($event)">Clear</button>
+		<a href="http://test.com" target="_blank" v-on:click.prevent="visit($event)">Visit</a>
+		<div v-html="html"></div>
+
+		<form v-on:submit.prevent="alert('as')">
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				title: 'Titanic',
+				age: 2000,
+				name: 'Film',
+				html: '<p>Test</p>'
+			},
+			methods: {
+				isOld: function(){
+					return this.age < 2000;
+				},
+				changeAge: function(event){
+					this.age = event.target.value;
+				},
+				clear: function(event){
+					this.title = '';
+					this.age = '';
+				},
+				visit: function(event){
+					alert('visit');
+				}
+			}
+		})
+	</script>
+</body>
+</html>

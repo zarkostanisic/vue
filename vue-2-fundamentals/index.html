@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		[v-cloak]{
+			display: none;
+		}
+
+		.shape{
+			width: 150px;
+			height: 150px;
+			float: left;
+			margin: 10px;
+		}
+
+		.shape.animate{
+			animation-name: stretch;
+			animation-duration: 3.0s;
+			animation-timing-function: ease-out;
+		}
+
+		@keyframes stretch{
+			0% {
+				transform: scale(.3);
+			}
+
+			75% {
+				transform: scale(.1);
+			}
+
+			100% {
+				transform: scale(1.0);
+			}
+		}
+
+		.circle{
+			background-color: red;
+			border-radius: 50%;
+		}
+
+		.square{
+			background-color: blue;
+		}
+
+		.triangle.up {
+	      width: 0;
+	      height: 0;
+	      border-left: 100px solid transparent;
+	      border-right: 100px solid transparent;
+	      border-bottom: 150px solid red;
+	    }
+
+	    .triangle.down {
+	      width: 0;
+	      height: 0;
+	      border-left: 100px solid transparent;
+	      border-right: 100px solid transparent;
+	      border-top: 150px solid red;
+	    }
+
+	    .triangle.left {
+	      width: 0;
+	      height: 0;
+	      border-top: 75px solid transparent;
+	      border-right: 150px solid red;
+	      border-bottom: 75px solid transparent;
+	    }
+
+	    .triangle.right {
+	      width: 0;
+	      height: 0;
+	      border-top: 75px solid transparent;
+	      border-left: 150px solid red;
+	      border-bottom: 75px solid transparent;
+	    }
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- {{ title }}
+		<div v-html="html"></div>
+		<input type="text" v-on:keyup="showValue($event)">
+		<input type="text" v-on:keyup.ctrl.enter="title = $event.target.value"> -->
+		<!-- <p>Title: {{ title }}</p>
+		<p>Released: {{ year }}</p>
+		<p>{{ isMovieOld() ? 'old' : 'new' }}</p>
+
+		<div v-bind:title="title">Hover</div>
+		<button v-on:click.once="showMessage('Hello World!', $event)">Show message</button>
+		<a href="http://test.com" v-on:click.prevent="showMessage('Hello World!', $event)" target="_blank">Show message</a>
+
+		<input type="text" v-on:keyup.enter="pressedEnter">
+		<input type="text" v-on:keyup.enter="pressedShiftEnter">
+
+		<button v-on:click.shift="buttonShift('Hello World!')">Button shift</button> -->
+		<!-- <form action="" method="" v-on:submit.prevent>
+			<input type="submit" value="Submit">
+		</form>
+		<input type="text" v-model.lazy="name">
+		<p>{{ name }}</p>
+
+		<p v-once>{{ movieTitle }}</p>
+		<button v-on:click="movieTitle = 'Test reloaded'">Change movieTitle</button> -->
+
+		<!-- <p v-if="items > 10">{{ items }} in stock</p>
+		<p v-else-if="items > 0">B</p>
+		<p v-else>C</p>
+
+		<template v-if="items > 50">
+			<p>D</p>
+			<p>E</p>
+		</template> -->
+
+		<!-- <p v-show="isNinja">A</p>
+		<p v-show="!isNinja">B</p>
+
+		<button v-on:click="isNinja = !isNinja">Toggle isNinja</button> -->
+
+		<!-- <h1>v-cloak example</h1>
+		<p v-cloak>{{ message }}</p>
+
+		<h1>Movies</h1>
+
+		<ul>
+			<li v-for="title in titles">{{ title }}</li>
+		</ul>
+
+		<h1>Employees</h1>
+
+		<ul>
+			<li v-for="(employee, index) in employees" v-bind:key="employee.id">{{ employee.id}}. {{ employee.name }} - {{ company }} - {{ index }}</li>
+		</ul>
+
+		<h1>Person</h1>
+		<ul>
+			<li v-for="(p, index) in person">{{ p }} - {{ index }}</li>
+		</ul>
+
+		<h1>Numbers</h1>
+		<ul>
+			<li v-for="(n, index) in 10">{{ n }} * {{ index }} = {{ n * index}}</li>
+		</ul>
+
+		<h1>Letters</h1>
+		<ul>
+			<li v-for="(letter, index) in letters" v-bind:key="index">{{ letter }}</li>
+			<button v-on:click="changeLetter()">Change letter</button>
+		</ul> -->
+		<!-- <p>{{ counter}}</p>
+		<p>{{ fullName }}</p>
+		<button v-on:click="counter++">Counter++</button>
+		<button v-on:click="counter > 0 ? counter-- : alert('zero')">Counter--</button>
+
+		<button v-on:click="changeName">Change name</button>
+		<button v-on:click="fullName = 'pera detlic'">Change name - set</button> -->
+		<!-- <input type="text" v-model="searchQuery">
+		<p v-if="isSearching">Searching...</p>
+		<ul>
+			<li v-for="result in results">{{ result }}</li>
+		</ul> -->
+		<!-- <h1>{{ message | uppercase(true) }}</h1> -->
+		<!-- <div v-bind:style="[styles, moreStyles]"></div>
+
+		<button v-on:click="changeColor">Change color</button> -->
+
+		<!-- <div class="shape" 
+			v-for="shape in shapes"
+			v-bind:class="[ shape.shape, shape.direction ? shape.direction : '', {animate: shape.animate}]">
+			
+		</div> -->
+		<button v-on:click="hello">Hello (v-on)</button>
+		<button @click="hello">Hello (shorthand)</button>
+
+		<p v-bind:title="title">Hover me (v-bind)</p>
+		<p :title="title">Hover me (shorthand)</p>
+	</div>
+
+	<script type="text/javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				title: 'Hello World!'
+			},
+			methods: {
+				hello: function(){
+					alert('Hello World!');
+				}
+			}
+		})
+		// new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		shapes: [
+		// 			{shape: 'square', animate: true},
+		// 			{shape: 'circle'},
+		// 			{shape: 'triangle', direction: 'up', animate: true},
+		// 			{shape: 'triangle', direction: 'down'},
+		// 			{shape: 'triangle', direction: 'left', animate: true},
+		// 			{shape: 'triangle', direction: 'right'}
+		// 		]
+		// 	}
+		// });
+		// new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		color: 'red',
+		// 		width: '200px',
+		// 		height: '200px',
+		// 		moreStyles:{
+		// 			'border': '1px solid black',
+		// 			'border-radius' : '5px'
+		// 		}
+		// 	},
+		// 	computed: {
+		// 		styles: function(){
+		// 			return {
+		// 				'background-color': this.color,
+		// 				'width': this.width, 
+		// 				'height': this.height
+		// 			}
+		// 		}
+		// 	},
+		// 	methods: {
+		// 		changeColor: function(){
+		// 			if(this.color == 'red'){
+		// 				this.color = 'blue';
+		// 			}else{
+		// 				this.color = 'red'
+		// 			}
+		// 		}
+		// 	}
+		// });
+		// new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		message: 'hello world!'
+		// 	},
+		// 	filters: {
+		// 		uppercase: function(value, onlyFirstCharacter){
+		// 			if(!value){
+		// 				return '';
+		// 			}
+
+		// 			value = value.toString();
+
+		// 			if(onlyFirstCharacter){
+		// 				return value.charAt(0).toUpperCase() + value.slice(1);
+		// 			}else{
+		// 				return value.toUpperCase();
+		// 			}
+		// 		}
+		// 	}
+		// });
+		// new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		searchQuery: '',
+		// 		isSearching: false,
+		// 		results: []
+		// 	},
+		// 	watch: {
+		// 		searchQuery: function(query){
+		// 			this.isSearching = true;
+		// 			var vm = this;
+
+		// 			setTimeout(function(){
+		// 				vm.results = ['Java', 'PHP'];
+
+		// 				vm.isSearching = false;
+		// 			}, 500);
+		// 		}
+		// 	}
+		// })
+		// new Vue({
+		// 	el: '#app',
+		// 	data: {
+		// 		counter: 1,
+		// 		firstname: 'zarko',
+		// 		lastname: 'stanisic'
+		// 	},
+		// 	methods: {
+		// 		changeName: function(){
+		// 			this.firstname = 'Z';
+		// 			this.lastname = 'S';
+		// 		}
+		// 	},
+		// 	computed: {
+		// 		fullName: {
+		// 			get: function(){
+		// 				alert('get');
+		// 				return this.firstname + ' ' + this.lastname; 
+		// 			},
+		// 			set: function(value){
+		// 				alert('set');
+		// 				var parts = value.split(' ');
+		// 				this.firstname = parts[0];
+		// 				this.lastname = parts[parts.length - 1];
+		// 			}
+		// 		}
+		// 	}
+		// });
+		// setTimeout(function(){
+		// 	new Vue({
+		// 		el: "#app",
+		// 		data: {
+		// 			message: 'Test',
+		// 			titles: ['A', 'B'],
+		// 			employees: [
+		// 				{ id: 1, name: 'E A'},
+		// 				{ id: 2, name: 'E B'}
+		// 			],
+		// 			company: 'C A',
+		// 			person: {
+		// 				name: 'P A',
+		// 				age: '23'
+		// 			},
+		// 			letters: ['A', 'B']
+		// 		},
+		// 		methods: {
+		// 			changeLetter: function(){
+		// 				Vue.set(this.letters, 1, 'C');
+		// 			}
+		// 		}
+		// 	});
+		// }, 5);
+		// new Vue({
+		// 	el: '#app',
+		// 	// data: {
+		// 	// 	title: 'test',
+		// 	// 	year: '1999',
+		// 	// }, 
+		// 	// methods: {
+		// 	// 	isMovieOld: function(){
+		// 	// 		return this.year < 2000;
+		// 	// 	},
+		// 	// 	showMessage: function(message, event){
+		// 	// 		console.log(event);
+		// 	// 		alert(message);
+		// 	// 	},
+		// 	// 	pressedEnter: function(){
+		// 	// 		alert('Pressed ENTER!');
+		// 	// 	},
+		// 	// 	pressedShiftEnter: function(){
+		// 	// 		alert('Pressed SHIFT + ENTER!');
+		// 	// 	},
+		// 	// 	buttonShift: function(){
+		// 	// 		alert('BUTTON SHIFT');
+		// 	// 	}
+		// 	// }
+		// 	data: {
+		// 		title: '',
+		// 		name: '',
+		// 		html: '<h1>Hello World!</h1>',
+		// 		movieTitle: 'Test',
+		// 		items: 60,
+		// 		isNinja: true,
+		// 		message: 'Test'
+		// 	},
+		// 	methods: {
+		// 		showValue: function(event){
+		// 			this.title = event.target.value;
+		// 		}
+		// 	}
+		// })
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Test 5</title>
+	<script type="text/javascript" src="./vue.js"></script>
+	<style type="text/css">
+		[v-cloak]{
+			display: none;
+		}
+		.shape{
+			width: 150px;
+			height: 150px;
+			background-color: red;
+		}
+		.highlighted{
+			background-color: gray;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="shape" v-bind:style="shapeStyles" v-on:click="changeShape"></div>
+
+		<h1>Employees</h1>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Title</th>
+					<th>Company</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(e, index) in employees" v-bind:class="{highlighted: index % 2}">
+					<td>{{ e.name }}</td>
+					<td>{{ e.title }}</td>
+					<td>{{ companyName }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data: {
+				shapeStyles: {},
+				employees: [
+					{name: 'E 1', title: 'T 1'},
+					{name: 'E 2', title: 'T 2'},
+					{name: 'E 3', title: 'T 3'},
+					{name: 'E 4', title: 'T 4'}
+				],
+				companyName: 'C N'
+			},
+			methods: {
+				changeShape: function(){
+					
+					if(typeof this.shapeStyles['border-radius'] !== 'undefined'){
+						
+						Vue.set(this.shapeStyles, 'border-radius', undefined);
+					}else{
+						
+						Vue.set(this.shapeStyles, 'border-radius', '50%');
+					}
+				}
+			}
+					
+		});
+	</script>
+</body>
+</html>
