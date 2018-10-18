@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue</title>
+</head>
+<body>
+	<div id="app">
+		<contact-us></contact-us>
+		
+		<counter></counter>
+		<counter></counter>
+	</div>
+
+	<div id="app2">
+		<contact-us></contact-us>
+	</div>
+
+	<script type="text/javascript" src="./vue.js"></script>
+	<script type="text/javascript">
+		// new Vue({
+		// 	el: '.test',
+		// 	template: '<h1>{{ message }}</h1>',
+		// 	data: {
+		// 		message: 'Hello World'
+		// 	}
+		// });
+		// Vue.component('contact-us',{
+		// 	data: function(){
+		// 		return {
+		// 			email: 'info@a.com'
+		// 		}
+		// 	},
+		// 	template: '<div><h1>{{ email }}</h1></div>'
+		// });
+
+		// Vue.component('counter', {
+		// 	data: function(){
+		// 		return {
+		// 			counter: 1
+		// 		}
+		// 	},
+		// 	template: `
+		// 		<div>
+		// 			<h1>{{ counter }}</h1>
+		// 			<button @click="counter++">Counter++</button>
+		// 		</div>
+		// 		</div>
+		// 	`
+		// })
+
+		// new Vue({
+		// 	el: '#app'
+		// });
+		var contactUs = {data: function(){
+				return {
+					email: 'info@a.com'
+				}
+			},
+			template: '<div><h1>{{ email }}</h1></div>'
+		};
+
+		new Vue({
+			el: '#app',
+			components: {
+				// 'contact-us' : contactUs
+				contactUs : contactUs
+			}
+		});
+
+		new Vue({
+			el: '#app2',
+		});
+	</script>
+</body>
+</html>
