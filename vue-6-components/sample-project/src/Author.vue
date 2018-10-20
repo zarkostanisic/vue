@@ -21,10 +21,10 @@
 				}
 			},
 		},
-		created(){
-			eventBus.$on('articleWasShared', (data) => {
-				alert('Shared article on FB' + data.media);
-			});
-		}
+		// created(){
+		// 	eventBus.$on('articleWasShared', (data) => {
+		// 		alert('Shared article on FB' + data.media);
+		// 	});
+		// }
 	}
 </script>

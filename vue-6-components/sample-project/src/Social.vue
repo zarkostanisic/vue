@@ -1,19 +1,30 @@
 <template>
-	<button @click="share">Share on FB</button>
+	<div>
+		<h3>Share {{ article.title }}</h3>
+		<button @click="share('FB')">Share on FB</button>
+		<button @click="share('TW')">Share on TW</button>
+	</div>
 </template>
 
 <script type="text/javascript">
 	import { eventBus } from './main'
 
 	export default{
+		props: {
+			article: {
+				type: Object,
+				required: true
+			}
+		},
 		methods: {
-			share(){
+			share(media){
 				eventBus.$emit('articleWasShared', {
-					media: 'facebook'
+					article: this.article,
+					media: media
 				});
 
 				this.$emit('articleWasShared', {
-					media: 'facebook'
+					media: media
 				});
 
 			},

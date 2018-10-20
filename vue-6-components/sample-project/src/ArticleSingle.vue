@@ -8,7 +8,7 @@
 
 		<author :author="author"></author>
 
-		<social @articleWasShared="shared('Hello', $event)"></social>
+		<social @articleWasShared="shared('Hello', $event)" :article="$data"></social>
 	</div>
 </template>
 <script>
