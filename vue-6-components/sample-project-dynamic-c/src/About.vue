@@ -6,6 +6,11 @@
 
 <script>
 	export default{
-		
+		activated(){
+			alert('Activated');
+		},
+		deactivated(){
+			alert('Deactivated');
+		}
 	}
 </script>
