@@ -250,7 +250,7 @@ export default [
         isImportant: false,
         isDeleted: false,
         isRead: false,
-        type: 'incoming',
+        type: 'sent',
         date: moment().subtract(7, 'months'),
         from: {
             name: 'Random Recruiter',
