@@ -48,7 +48,7 @@
             }
         },
 		created(){
-            console.log(this.messages);
+            //console.log(this.messages);
 			eventBus.$on('changeView', (data) => {
 				this.activeView = data.tag;
 			});
