@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="inbox-body">
 		<app-messages :messages="incomingMessages"></app-messages>
 	</div>
 </template>
@@ -14,15 +14,15 @@
 				required: true
 			}
 		},
+		components: {
+			appMessages: Messages
+		},
 		computed: {
 			incomingMessages(){
                 return this.data.messages.filter(function(message){
                     return (message.type == 'incoming'&& !message.isDeleted);
                 });
             },
-		},
-		components: {
-			appMessages: Messages
 		}
 	}
 </script>

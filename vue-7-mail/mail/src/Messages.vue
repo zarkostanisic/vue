@@ -5,14 +5,14 @@
 				<tr v-for="message in messages" :class="{ unread: typeof message.isRead !== 'undefined' && !message.isRead }">
 					<td><input type="checkbox"></td>
 					<td>
-						<a href="">
-							<i class="fa fa-star" v-if="typeof message.isImportant !== 'undefined'"></i>
+						<a href="" v-if="typeof message.isImportant !== 'undefined'" @click.prevent.stop="message.isImportant = !message.isImportant">
+							<i :class="['fa', 'fa-star', {important: message.isImportant}]"></i>
 						</a>
-						<td>{{ message.from.email }}</td>
-						<td>{{ message.subject }}</td>
-						<td><i v-if="message.attachments.length > 0 " class="fa fa-paperclip"></i></td>
-						<td class="text-right">{{ message.date.fromNow() }}</td>
 					</td>
+					<td>{{ message.from.email }}</td>
+					<td>{{ message.subject }}</td>
+					<td><i v-if="message.attachments.length > 0 " class="fa fa-paperclip"></i></td>
+					<td class="text-right">{{ message.date.fromNow() }}</td>
 				</tr>
 			</tbody>
 		</table>
@@ -28,9 +28,6 @@
 				type: Array,
 				required: true
 			}
-		},
-		created(){
-			console.log(this.messages[0].subject);
 		}
 	}
 </script>
