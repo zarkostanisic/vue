@@ -9,6 +9,9 @@
             </div>
         </div>
 
+        <div class="compose-wrapper">
+            <app-compose></app-compose>
+        </div>
         <ul class="inbox-nav">
             <li :class="{active: activeView == 'app-inbox'}">
                 <a href="#"  @click.prevent="navigate('app-inbox', 'Inbox')">
@@ -38,6 +41,8 @@
 </template>
 
 <script>
+    import Compose from './Compose.vue'
+
 	import { eventBus } from './main'
 
 	export default{
@@ -46,6 +51,9 @@
                 type: Array,
                 required: true
             }
+        },
+        components: {
+            appCompose: Compose
         },
 		created(){
             //console.log(this.messages);

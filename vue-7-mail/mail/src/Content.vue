@@ -63,6 +63,9 @@
 				current.data.messages = this.messages; 
 
 				return current;
+			},
+			previousView: function(){
+				return typeof this.history[1] !== 'undefined' ? this.history[1] : null;
 			}
 		}
 	}
