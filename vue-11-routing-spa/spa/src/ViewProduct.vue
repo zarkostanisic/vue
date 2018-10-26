@@ -1,64 +1,67 @@
 <template>
     <div>
-    	<button @click="goBack">&laquo; Back</button>
-    	<h1>{{ product.name }}</h1>
-    	<p><strong>ID:</strong>{{ product.id }}</p>
-    	<p><strong>Price:</strong>{{ product.price | currency }}</p>
-    	<p><strong>In stock:</strong>{{ product.inStock }}</p>
-    	<p>{{ product.description }}</p>
-    	<h3>Releated product</h3>
-    	<ul>
-    		<li v-for="product in products" v-if="product.id != productId">
-	    		<router-link :to="{ name: 'viewProduct', params: { productId: product.id} }">
-	                {{ product.name }}
-	            </router-link>
-            </li>
-    	</ul>
+        <p><strong>ID:</strong> {{ product.id }}</p>
+        <p>
+            <strong>Price:</strong> {{ (product.price - discount) | currency }}
+            <span v-if="discount > 0">(save {{ discount | currency }})</span>
+        </p>
+        <p><strong>In stock:</strong> {{ product.inStock }}</p>
+        <p>{{ product.description }}</p>
     </div>
 </template>
 
 <script>
-	import { products } from './data/products'
+    import { products } from './data/products';
 
     export default {
-    	props: {
-    		productId: {
-    			required:true
-    		}
-    	},
-    	data(){
-    		return {
-    			products: products,
-    			product: null
-    		}
-    	},
-    	created(){
-    		//let productId = this.$route.params.productId;
-    		let productId = this.productId;
+        props: {
+            productId: {
+                required: true
+            }
+        },
+        data() {
+            return {
+                products: products,
+                product: null,
+                discount: 0
+            };
+        },
+        created() {
+            this.$watch('$route.query.discount', (newValue, oldValue) => {
+                this.discount = this.getDiscount(this.product.price, newValue);
+            });
 
-    		this.product = this.getProduct(productId);
-    	},
-    	methods: {
-    		getProduct(productId){
-    			let match = null;
+            this.product = this.getProduct(this.productId);
 
-    			this.products.forEach(function(product){
-    				if(product.id == productId){
-    					match = product;
-    				}
-    			});
+            if (typeof this.$route.query.discount !== 'undefined') {
+                this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
+            }
+        },
+        watch: {
+            productId(newValue, oldValue) {
+                this.product = this.getProduct(newValue);
+                this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
+            }
+        },
+        methods: {
+            getProduct(productId) {
+                let match = null;
 
-    			return match;
-    		},
-    		goBack(){
-    			// this.$router.push('/');
-    			this.$router.go(-1);
-    		}
-    	}, 
-    	watch: {
-    		productId(newValue, oldValue){
-    			this.product = this.getProduct(newValue);
-    		}
-    	}
+                this.products.forEach(function(product) {
+                    if (product.id == productId) {
+                        match = product;
+                    }
+                });
+
+                return match;
+            },
+            getDiscount(originalPrice, percentage) {
+                if (!percentage) {
+                    return 0;
+                }
+
+                return ((originalPrice * percentage) / 100);
+            }
+        }
     }
 </script>
