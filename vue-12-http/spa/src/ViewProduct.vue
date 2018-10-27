@@ -1,18 +1,58 @@
 <template>
     <div>
-        <p><strong>ID:</strong> {{ product.id }}</p>
-        <p>
-            <strong>Price:</strong> {{ (product.price - discount) | currency }}
-            <span v-if="discount > 0">(save {{ discount | currency }})</span>
-        </p>
-        <p><strong>In stock:</strong> {{ product.inStock }}</p>
-        <p>{{ product.description }}</p>
+        <button class="btn btn-primary" @click="goBack">&laquo; Back</button>
+
+        <div v-if="product != null">
+            <h1>{{ product.name }}</h1>
+
+            <p><strong>ID:</strong> {{ product.id }}</p>
+            <p><strong>Price:</strong> {{ product.price | currency }}</p>
+            <p><strong>In stock:</strong> {{ product.inStock }}</p>
+            <p>{{ product.description }}</p>
+
+            <h2>Reviews</h2>
+
+            <div v-if="product.reviews.length > 0">
+                <div v-for="review in product.reviews">
+                    <strong>{{ review.reviewer }}</strong> (rating: {{ review.rating }})
+                    <a href="#" @click.prevent="deleteReview(review)">Delete</a>
+                    <p>{{ review.text }}</p>
+                </div>
+            </div>
+
+            <div v-else>
+                <p>No reviews have been added for this product.</p>
+            </div>
+
+            <h3>Add Review</h3>
+
+            <form @submit.prevent="addNewReview(newReview)">
+                <div class="form-group">
+                    <label for="reviewName">Name</label>
+                    <input type="text" v-model="newReview.reviewer" class="form-control" id="reviewName" placeholder="Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewRating">Rating</label>
+                    <input type="number" v-model.number="newReview.rating" class="form-control" id="reviewRating" placeholder="Rating">
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewText">Text</label>
+                    <textarea v-model="newReview.text" class="form-control" id="reviewText" cols="30" rows="10"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        </div>
+
+        <div v-else>
+            <p>Loading...</p>
+        </div>
     </div>
 </template>
 
 <script>
-    import { products } from './data/products';
-
     export default {
         props: {
             productId: {
@@ -21,51 +61,83 @@
         },
         data() {
             return {
-                products: products,
                 product: null,
-                discount: 0
+                newReview: {
+                    text: '',
+                    rating: 0,
+                    reviewer: ''
+                },
+                reviewResource: null
             };
         },
-        created() {
-            this.$watch('$route.query.discount', (newValue, oldValue) => {
-                this.discount = this.getDiscount(this.product.price, newValue);
-            });
-
-            this.product = this.getProduct(this.productId);
-
-            if (typeof this.$route.query.discount !== 'undefined') {
-                this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
+        http: {
+            headers: {
+                'X-CSRF-TOKEN': 'VERY_SECURE_TOKEN_HERE'
             }
         },
-        beforeRouteUpdate(to, from, next){
-            this.discount = this.getDiscount(this.product.price, to.query.discount);
-            this.product = this.getProduct(to.params.productId);
+        created() {
+            let customActions = {
+                softDelete: {
+                    method: 'DELETE',
+                    url: 'products/{productId}/reviews/{reviewId}?soft=true'
+                }
+            }
+
+            let url = 'products/{productId}/reviews/{reviewId}';
+            this.reviewResource = this.$resource(url, {}, customActions);
+
+            this.getProduct(this.productId)
+                .then(product => this.product = product);
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.getProduct(to.params.productId)
+                .then(product => this.product = product);
+
             next();
         },
-        // watch: {
-        //     productId(newValue, oldValue) {
-        //         this.product = this.getProduct(newValue);
-        //         this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
-        //     }
-        // },
         methods: {
             getProduct(productId) {
-                let match = null;
-
-                this.products.forEach(function(product) {
-                    if (product.id == productId) {
-                        match = product;
+                return this.$http.get('products/{productId}', {
+                    params: {
+                        productId: productId
                     }
-                });
-
-                return match;
+                }).then(
+                    response => response.json(),
+                    response => alert("Could not retrieve product!")
+                );
             },
-            getDiscount(originalPrice, percentage) {
-                if (!percentage) {
-                    return 0;
-                }
-
-                return ((originalPrice * percentage) / 100);
+            goBack() {
+                this.$router.history.go(-1);
+            },
+            addNewReview(review) {
+                this.$http.post('products/{productId}/reviews', review, {
+                    params: {
+                        productId: this.productId
+                    }
+                })
+                 .then(
+                    response => response.json(),
+                    response => alert('error')
+                )
+                .then(
+                    newReview => this.product.reviews.push(newReview)
+                );
+            },
+            deleteReview(review){
+                // this.reviewResource.delete({
+                this.reviewResource.softDelete({
+                    productId: this.productId,
+                    reviewId: review.id
+                })
+                .then(
+                    resource => {
+                        this.getProduct(this.productId)
+                            .then(
+                                product => this.product = product
+                            );
+                    },
+                    resource => alert('error')
+                )
             }
         }
     }

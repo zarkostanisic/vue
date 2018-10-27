@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-view name="discount"></router-view>
+        <!-- <router-view name="discount"></router-view> -->
 
         <div class="container">
             <nav class="navbar navbar-default">
