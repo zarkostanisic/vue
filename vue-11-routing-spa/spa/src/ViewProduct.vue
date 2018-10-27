@@ -37,12 +37,17 @@
                 this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
             }
         },
-        watch: {
-            productId(newValue, oldValue) {
-                this.product = this.getProduct(newValue);
-                this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
-            }
+        beforeRouteUpdate(to, from, next){
+            this.discount = this.getDiscount(this.product.price, to.query.discount);
+            this.product = this.getProduct(to.params.productId);
+            next();
         },
+        // watch: {
+        //     productId(newValue, oldValue) {
+        //         this.product = this.getProduct(newValue);
+        //         this.discount = this.getDiscount(this.product.price, this.$route.query.discount);
+        //     }
+        // },
         methods: {
             getProduct(productId) {
                 let match = null;

@@ -25,7 +25,7 @@
         <br>
         <router-view></router-view>
 
-        <div v-if="relatedProducts != null">
+        <div v-if="relatedProducts != null" style="margin-top: 500px;margin-bottom: 500px;" id="related">
             <h2>Related Products</h2>
             <ul>
                 <li v-for="related in relatedProducts">

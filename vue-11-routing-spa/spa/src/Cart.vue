@@ -62,6 +62,15 @@
 
     export default {
         props: ['cart'],
-        mixins: [ CartMixin ]
+        mixins: [ CartMixin ],
+        beforeRouteLeave(to, from, next){
+            if(this.cart.items.length > 0){
+                if(!confirm('are you sure')){
+                    return next(false);
+                }
+            }
+
+            next();
+        }
     }
 </script>
