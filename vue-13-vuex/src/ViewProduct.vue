@@ -110,7 +110,7 @@
             },
             [ADD_PRODUCT_TO_CART] (product) {
 
-                this.$store.commit(ADD_PRODUCT_TO_CART, {product: this.product, quantity: 1});
+                this.$store.commit('addProductToCart', {product: this.product, quantity: 1});
             }
         }
     }
