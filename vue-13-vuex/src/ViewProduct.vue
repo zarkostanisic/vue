@@ -1,7 +1,7 @@
 <template>
     <div>
         <button class="btn btn-primary" @click="goBack">&laquo; Back</button>
-        <button class="btn btn-success" @click="addProductToCart(product)">Add to cart</button>
+        <button class="btn btn-success" @click="addProductToCart()">Add to cart</button>
 
         <div v-if="product != null">
 
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+    import { ADD_PRODUCT_TO_CART } from './mutation-types'
+
     export default {
         props: {
             productId: {
@@ -106,29 +108,9 @@
             deleteReview(review) {
                 // TODO: Implement
             },
-            addProductToCart() {
-                let cartItem = this.getCartItem(this.product);
-                
-                if(cartItem != null){
-                    cartItem.quantity++;
-                }else{
-                    this.cart.items.push({
-                        product: this.product,
-                        quantity: 1
-                    })
-                }
+            [ADD_PRODUCT_TO_CART] (product) {
 
-                this.product.inStock--;
-
-            },
-            getCartItem(product){
-                for(let i = 0; i < this.cart.items.length; i++){
-                    if(this.cart.items[i].product.id === product.id){
-                        return this.cart.items[i];
-                    }
-                }
-
-                return null;
+                this.$store.commit(ADD_PRODUCT_TO_CART, {product: this.product, quantity: 1});
             }
         }
     }

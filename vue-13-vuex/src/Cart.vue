@@ -35,7 +35,7 @@
                     <strong>Taxes</strong>
                 </td>
 
-                <td>{{ taxAmount | currency }}</td>
+                <td>{{ taxAmount(10) | currency }}</td>
             </tr>
 
             <tr>
@@ -43,7 +43,7 @@
                     <strong>Grand total</strong>
                 </td>
 
-                <td>{{ cartTotal + taxAmount | currency }}</td>
+                <td>{{ cartTotal + taxAmount(10) | currency }}</td>
             </tr>
 
             <tr>
@@ -58,18 +58,19 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+    import { mapMutations } from 'vuex'
+    import { CHECKOUT } from './mutation-types'
+
     export default {
         // TODO: Access cart items, cart total, and tax amount
         computed: {
+            ...mapGetters([
+                'taxAmount',
+                'cartTotal'
+            ]),
             cart(){
                 return this.$store.state.cart;
-            },
-            cartTotal(){
-                return this.$store.getters.cartTotal;
-            },
-            taxAmount(){
-                // return this.$store.getters.taxAmount;
-                return this.$store.getters.taxAmount(50);
             }
         },
         // TODO: Implement increaseQuantity method
@@ -86,6 +87,9 @@
             }
 
             next();
+        },
+        methods: {
+            ...mapMutations([CHECKOUT]),
         }
     }
 </script>

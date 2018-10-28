@@ -5,6 +5,9 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import { routes } from './routes';
 
+import { ADD_PRODUCT_TO_CART } from './mutation-types'
+import { CHECKOUT } from './mutation-types'
+
 Vue.filter('currency', function(value) {
     let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -43,6 +46,45 @@ const store = new Vuex.Store({
         // }
         taxAmount: (state, getters) => (percentage) => {
             return ((getters.cartTotal * percentage) / 100);   
+        },
+        getCartItem: (state) => () => {
+            for(let i = 0; i < state.cart.items.length; i++){
+                if(state.cart.items[i].product.id === product.id){
+                    return state.cart.items[i];
+                }
+            }
+
+            return null;
+        }
+    },
+    mutations: {
+        [CHECKOUT] (state){
+            
+            state.cart.items.forEach(function(item){
+                item.product.inStock += item.quantity;
+            });
+
+            state.cart.items = [];
+        },
+        [ADD_PRODUCT_TO_CART] : (state, payload) => {
+            let cartItem = null;
+
+            for(let i = 0; i < state.cart.items.length; i++){
+                if(state.cart.items[i].product.id === payload.product.id){
+                    cartItem =  state.cart.items[i];
+                }
+            }
+                
+            if(cartItem != null){
+                cartItem.quantity += payload.quantity;
+            }else{
+                state.cart.items.push({
+                    product: payload.product,
+                    quantity: payload.quantity
+                })
+            }
+
+            payload.product.inStock -= payload.quantity;
         }
     }
 });

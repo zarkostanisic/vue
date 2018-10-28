@@ -40,6 +40,9 @@
 </template>
 
 <script>
+    import { mapMutations } from 'vuex'
+    import { ADD_PRODUCT_TO_CART } from './mutation-types'
+
     export default {
         data() {
             return {
@@ -66,28 +69,9 @@
                 });
         },
         methods: {
-            addProductToCart(product, quantity) {
-                let cartItem = this.getCartItem(product);
-                
-                if(cartItem != null){
-                    cartItem.quantity += quantity;
-                }else{
-                    this.cart.items.push({
-                        product: product,
-                        quantity: quantity
-                    })
-                }
+            [ADD_PRODUCT_TO_CART] (product, quantity) {
 
-                product.inStock -= quantity;
-            },
-            getCartItem(product){
-                for(let i = 0; i < this.cart.items.length; i++){
-                    if(this.cart.items[i].product.id === product.id){
-                        return this.cart.items[i];
-                    }
-                }
-
-                return null;
+                this.$store.commit(ADD_PRODUCT_TO_CART, {product: product, quantity: quantity});
             }
         }
     }
