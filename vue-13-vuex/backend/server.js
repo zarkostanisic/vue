@@ -86,3 +86,16 @@ app.delete('/products/:productId/reviews/:reviewId', (req, res) => {
         res.sendStatus(404);
     }
 });
+app.post('/cart/add/:productId/:quantity', (req, res) => {
+    for(let i = 0; i < 100000; i++){
+        console.log(i);
+    }
+    res.sendStatus(200)
+});
+
+app.post('/cart/increase-quantity/:productId', (req, res) => {
+    for(let i = 0; i < 100000; i++){
+        console.log(i);
+    }
+    res.sendStatus(200);
+});

@@ -7,6 +7,7 @@ import { routes } from './routes';
 
 import { ADD_PRODUCT_TO_CART } from './mutation-types'
 import { CHECKOUT } from './mutation-types'
+import { INCREASE_PRODUCT_QUANTITY } from './mutation-types'
 
 Vue.filter('currency', function(value) {
     let formatter = new Intl.NumberFormat('en-US', {
@@ -47,7 +48,7 @@ const store = new Vuex.Store({
         taxAmount: (state, getters) => (percentage) => {
             return ((getters.cartTotal * percentage) / 100);   
         },
-        getCartItem: (state) => () => {
+        getCartItem: (state) => (product) => {
             for(let i = 0; i < state.cart.items.length; i++){
                 if(state.cart.items[i].product.id === product.id){
                     return state.cart.items[i];
@@ -66,25 +67,62 @@ const store = new Vuex.Store({
 
             state.cart.items = [];
         },
-        [ADD_PRODUCT_TO_CART] : (state, payload) => {
-            let cartItem = null;
-
-            for(let i = 0; i < state.cart.items.length; i++){
-                if(state.cart.items[i].product.id === payload.product.id){
-                    cartItem =  state.cart.items[i];
-                }
-            }
+        [ADD_PRODUCT_TO_CART]: (state, payload) => {
                 
-            if(cartItem != null){
-                cartItem.quantity += payload.quantity;
-            }else{
-                state.cart.items.push({
-                    product: payload.product,
-                    quantity: payload.quantity
-                })
-            }
+            state.cart.items.push({
+                product: payload.product,
+                quantity: payload.quantity
+            });
 
             payload.product.inStock -= payload.quantity;
+        },
+        [INCREASE_PRODUCT_QUANTITY]: (state, payload) => {
+            payload.cartItem.quantity += payload.quantity;
+            payload.product.inStock -= payload.quantity;
+        }
+    },
+    actions: {
+        [ADD_PRODUCT_TO_CART] ({commit, getters}, payload){
+            return new Promise((resolve, reject) => {
+                let cartItem = getters.getCartItem(payload.product);
+
+                payload.cartItem = cartItem;
+
+                if(cartItem == null){
+                    let requestUrl = 'http://localhost:3000/cart/add/{productId}/{quantity}';
+                    Vue.http.post(requestUrl, {}, {
+                        params: {
+                            productId: payload.product.id,
+                            quantity: payload.quantity
+                        }
+                    }).then(
+                        response => {
+                            commit(ADD_PRODUCT_TO_CART, payload);
+                            resolve();
+                        },
+                        response => {
+                            alert('error');
+                            reject();
+                        } 
+                    );
+                }else{
+                    let requestUrl = 'http://localhost:3000/cart/increase-quantity/{productId}';
+                    Vue.http.post(requestUrl, {}, {
+                        params: {
+                            productId: payload.product.id,
+                        }
+                    }).then(
+                        response => {
+                            commit(INCREASE_PRODUCT_QUANTITY, payload)
+                            resolve();
+                        },
+                        response => {
+                            alert('error');
+                            reject(); 
+                        }
+                    );
+                }
+            });
         }
     }
 });

@@ -108,9 +108,9 @@
             deleteReview(review) {
                 // TODO: Implement
             },
-            [ADD_PRODUCT_TO_CART] (product) {
+            [ADD_PRODUCT_TO_CART] () {
 
-                this.$store.commit('addProductToCart', {product: this.product, quantity: 1});
+                this.$store.dispatch('addProductToCart', {product: this.product, quantity: 1});
             }
         }
     }

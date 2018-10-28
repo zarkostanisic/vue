@@ -71,7 +71,10 @@
         methods: {
             [ADD_PRODUCT_TO_CART] (product, quantity) {
 
-                this.$store.commit('addProductToCart', {product: product, quantity: quantity});
+                this.$store.dispatch('addProductToCart', {product: product, quantity: quantity})
+                    .then(
+                        () => alert('success')
+                    );
             }
         }
     }
