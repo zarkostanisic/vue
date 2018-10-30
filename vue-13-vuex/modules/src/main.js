@@ -32,13 +32,7 @@ const store = new Vuex.Store({
     modules: {
         blog: BlogModule,
         user: UserModule
-    },
-    state: {
-        isLoggedIn: false
-    },
-    // getters: {
-        
-    // }
+    }
 });
 
 new Vue({
