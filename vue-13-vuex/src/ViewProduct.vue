@@ -1,7 +1,7 @@
 <template>
     <div>
         <button class="btn btn-primary" @click="goBack">&laquo; Back</button>
-        <button class="btn btn-success" @click="addProductToCart()">Add to cart</button>
+        <button class="btn btn-success" @click="addProductToCart({ product:product, quantity: 1})">Add to cart</button>
 
         <div v-if="product != null">
 
@@ -56,6 +56,7 @@
 
 <script>
     import { ADD_PRODUCT_TO_CART } from './mutation-types'
+    import { mapActions } from 'vuex'
 
     export default {
         props: {
@@ -89,6 +90,8 @@
             next();
         },
         methods: {
+            ...mapActions([ADD_PRODUCT_TO_CART]),
+
             getProduct(productId) {
                 return this.$http.get('products/{productId}', {
                     params: {
@@ -108,10 +111,10 @@
             deleteReview(review) {
                 // TODO: Implement
             },
-            [ADD_PRODUCT_TO_CART] () {
+            // [ADD_PRODUCT_TO_CART] () {
 
-                this.$store.dispatch('addProductToCart', {product: this.product, quantity: 1});
-            }
+            //     this.$store.dispatch('addProductToCart', {product: this.product, quantity: 1});
+            // }
         }
     }
 </script>

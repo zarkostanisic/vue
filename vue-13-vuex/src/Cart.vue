@@ -40,6 +40,16 @@
 
             <tr>
                 <td class="text-right" colspan="2">
+                    <strong>Coupon code</strong>
+                </td>
+
+                <td>
+                    <input v-model="couponCode" type="text" class="form-control" placeholder="Enter coupon code here">
+                </td>
+            </tr>
+
+            <tr>
+                <td class="text-right" colspan="2">
                     <strong>Grand total</strong>
                 </td>
 
@@ -47,7 +57,11 @@
             </tr>
 
             <tr>
-                <td colspan="2"></td>
+                <td class="text-right" colspan="2">
+                    <span v-if="couponCode">
+                        <em>Lucky you! You entered the following coupon code: {{ couponCode }}</em>
+                    </span>
+                </td>
                 <td><button class="btn btn-success" @click="checkout">Checkout</button></td>
             </tr>
             </tbody>
@@ -61,6 +75,7 @@
     import { mapGetters } from 'vuex'
     import { mapMutations } from 'vuex'
     import { CHECKOUT } from './mutation-types'
+    import { UPDATE_COUPON_CODE } from './mutation-types'
 
     export default {
         // TODO: Access cart items, cart total, and tax amount
@@ -71,6 +86,14 @@
             ]),
             cart(){
                 return this.$store.state.cart;
+            },
+            couponCode: {
+                get(){
+                    return this.$store.state.couponCode;
+                },
+                set(value){
+                    this.$store.commit(UPDATE_COUPON_CODE, value);
+                }
             }
         },
         // TODO: Implement increaseQuantity method
@@ -89,7 +112,7 @@
             next();
         },
         methods: {
-            ...mapMutations([CHECKOUT]),
+            ...mapMutations([CHECKOUT, UPDATE_COUPON_CODE]),
         }
     }
 </script>

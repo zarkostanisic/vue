@@ -8,6 +8,7 @@ import { routes } from './routes';
 import { ADD_PRODUCT_TO_CART } from './mutation-types'
 import { CHECKOUT } from './mutation-types'
 import { INCREASE_PRODUCT_QUANTITY } from './mutation-types'
+import { UPDATE_COUPON_CODE } from './mutation-types'
 
 Vue.filter('currency', function(value) {
     let formatter = new Intl.NumberFormat('en-US', {
@@ -27,7 +28,8 @@ const store = new Vuex.Store({
     state: {
         cart: {
             items: []
-        }
+        },
+        couponCode: ''
     },
     getters: {
         cartTotal: (state) => {
@@ -79,6 +81,10 @@ const store = new Vuex.Store({
         [INCREASE_PRODUCT_QUANTITY]: (state, payload) => {
             payload.cartItem.quantity += payload.quantity;
             payload.product.inStock -= payload.quantity;
+        },
+        [UPDATE_COUPON_CODE]: (state, payload) => {
+            console.log(payload);
+            state.couponCode = payload;
         }
     },
     actions: {
