@@ -32,6 +32,19 @@ const store = new Vuex.Store({
     modules: {
         blog: BlogModule,
         user: UserModule
+    },
+    state: {
+        isBanned: false
+    },
+    getters: {
+        isBanned(state){
+            return state.isBanned;
+        }
+    },
+    mutations: {
+        login(state){
+           console.log('login root');
+        }
     }
 });
 
