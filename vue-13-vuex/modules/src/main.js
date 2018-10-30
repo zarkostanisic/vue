@@ -36,11 +36,9 @@ const store = new Vuex.Store({
     state: {
         isLoggedIn: false
     },
-    getters: {
-        isLoggedIn(state) {
-            return state.isLoggedIn;
-        }
-    }
+    // getters: {
+        
+    // }
 });
 
 new Vue({
