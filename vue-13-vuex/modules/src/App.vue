@@ -31,12 +31,15 @@
 
     export default {
         computed: {
-            ...mapGetters([
-                'isLoggedIn'
-            ])
+            ...mapGetters({
+                isLoggedIn: 'user/isLoggedIn'
+            })
         },
         methods: {
-            ...mapActions(['login', 'logout'])
+            ...mapActions('user', {
+                login: 'login',
+                logout: 'logout'
+            })
             // login() {
             //     this.$store.state.isLoggedIn = true;
             // },

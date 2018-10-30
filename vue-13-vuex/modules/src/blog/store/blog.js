@@ -1,4 +1,5 @@
 export default{
+	namespaced: true,
 	state: {
 		posts: [
             { id: 1, title: 'Vue.js is Awesome' },
